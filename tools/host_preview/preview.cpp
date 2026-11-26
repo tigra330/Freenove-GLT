@@ -2,6 +2,7 @@
 // Simuliert Touch-Eingaben (Koordinaten passend zum Layout in src/ui/rlt_screen.cpp).
 #include <lvgl.h>
 #include <cstdio>
+#include <zlib.h>
 #include <cstring>
 #include <vector>
 #include <string>
@@ -21,9 +22,7 @@ static void chunk(FILE* f,const char* t,const std::vector<uint8_t>& d){uint8_t l
 static void png(const char* fn){
   for(uint32_t n=0;n<256;n++){uint32_t c=n;for(int k=0;k<8;k++)c=c&1?0xedb88320^(c>>1):c>>1;crcT[n]=c;}
   std::vector<uint8_t> raw; for(int y=0;y<480;y++){raw.push_back(0);for(int x=0;x<800;x++){uint16_t v=fb[y*800+x];raw.push_back(((v>>11)&31)*255/31);raw.push_back(((v>>5)&63)*255/63);raw.push_back((v&31)*255/31);}}
-  std::vector<uint8_t> z={0x78,0x01}; size_t pos=0; uint32_t a=1,b=0; for(uint8_t c:raw){a=(a+c)%65521;b=(b+a)%65521;}
-  while(pos<raw.size()){size_t n=std::min<size_t>(65535,raw.size()-pos);z.push_back(pos+n==raw.size());z.push_back(n&255);z.push_back(n>>8);z.push_back(~n&255);z.push_back((~n>>8)&255);z.insert(z.end(),raw.begin()+pos,raw.begin()+pos+n);pos+=n;}
-  uint32_t ad=(b<<16)|a; z.push_back(ad>>24);z.push_back(ad>>16);z.push_back(ad>>8);z.push_back(ad);
+  uLongf zn=compressBound(raw.size()); std::vector<uint8_t> z(zn); compress2(z.data(),&zn,raw.data(),raw.size(),9); z.resize(zn);
   FILE* f=fopen(fn,"wb"); const uint8_t sig[8]={137,80,78,71,13,10,26,10}; fwrite(sig,1,8,f);
   std::vector<uint8_t> h={0,0,3,32,0,0,1,224,8,2,0,0,0}; chunk(f,"IHDR",h); chunk(f,"IDAT",z); chunk(f,"IEND",{}); fclose(f);}
 static uint32_t tick(){return now;}

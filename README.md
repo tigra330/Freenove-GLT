@@ -4,6 +4,14 @@ GLT-Bedien- und Visualisierungseinheit (HMI) für das Freenove FNK0115Q (5" IPS,
 
 Das Display zeigt die Anlage nur an. Es gibt keine Regelung, keine Verriegelung, keine Schreibbefehle, keine Hardwareausgänge und keine Netzwerkkommunikation. Alle Werte sind synthetische Demo-Daten.
 
+![RLT-Anlage (Startansicht)](docs/images/rlt-anlage.png)
+
+| Störung M01 | Detailfenster | Symbolgalerie |
+|---|---|---|
+| ![Störung](docs/images/rlt-stoerung.png) | ![Detailfenster](docs/images/detaildialog.png) | ![Symbolgalerie](docs/images/symbolgalerie.png) |
+
+*Die Bilder sind mit der PC-Vorschau gerendert (`tools/host_preview/build.sh`), mit derselben LVGL-Version und `lv_conf.h` wie die Firmware. Es sind keine Fotos des Displays.*
+
 ## Bedienung
 
 - **Startansicht RLT-Anlage**: zwei Luftstränge (oben Abluft/Fortluft ←, unten Außenluft/Zuluft →), WRG mit Pumpe M04/Ventil Y04, Filter, Klappen, Ventilatoren mit FU, Heiz-, Kühl- und Nachheizregister mit Ventilen, Sensoren und Raum „Innenzone BT C“.
