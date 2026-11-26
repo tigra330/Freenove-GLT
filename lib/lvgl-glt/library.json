@@ -1,0 +1,1 @@
+{"name":"lvgl-glt","version":"0.1.0","description":"Native LVGL symbols for building automation","frameworks":"arduino","dependencies":{"lvgl/lvgl":"9.5.0"}}
